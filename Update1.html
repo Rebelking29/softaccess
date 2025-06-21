@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>College Preference Sheet</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <style>
+    :root {
+      --saffron: #FF9933;
+      --white: #ffffff;
+      --green: #138808;
+      --navy: #1a2a44;
+      --light-bg: #f9f9fb;
+      --font: 'Calibri', sans-serif;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--light-bg);
+      margin: 0;
+      padding: 20px;
+      color: #444;
+    }
+
+    .sheet {
+      background: #fff;
+      border: 1px solid #ccc;
+      max-width: 1000px;
+      margin: auto;
+      padding: 40px 50px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      border-radius: 10px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 4px solid var(--saffron);
+      gap: 10px;
+    }
+
+    .en-display {
+      font-size: 20px;
+      font-weight: bold;
+      color: var(--navy);
+      width: 160px;
+      text-align: left;
+      line-height: 1.6;
+    }
+
+    .title-area {
+      text-align: center;
+      flex: 1;
+      padding: 0 20px;
+    }
+
+    .title {
+      font-size: 30px;
+      font-weight: bold;
+      color: var(--navy);
+      position: relative;
+      letter-spacing: 1px;
+      transition: all 0.4s ease;
+      overflow: hidden;
+      display: inline-block;
+    }
+
+    .title:hover {
+      transform: translateY(-5px) scale(1.05);
+      text-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .title::before {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background:
+        linear-gradient(120deg, #FF9933 0%, #ffffff 33%, #138808 66%, #FF9933 100%),
+        url('https://i.imgur.com/IznRbMi.png');
+      background-repeat: repeat-x, no-repeat;
+      background-size: 400% 100%, 30px 30px;
+      background-position: 0% 50%, 0% center;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: chakraWave 6s linear infinite;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
+
+    .title:hover::before {
+      opacity: 1;
+    }
+
+    @keyframes chakraWave {
+      0% {
+        background-position: 0% 50%, -30px center;
+      }
+      100% {
+        background-position: 100% 50%, 100% center;
+      }
+    }
+
+    .student-display {
+      font-size: 16px;
+      font-weight: 500;
+      color: #333;
+      margin-top: 5px;
+    }
+
+    .student-display span {
+      text-transform: uppercase;
+    }
+
+    .logo {
+        width: 130px;
+        height: auto;
+        padding: 4px;
+        border-radius: 6px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.4s ease, box-shadow 0.3s ease;
+    }
+
+    .logo:hover {
+        transform: scale(1.08);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+    }
+
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 15px;
+      font-size: 15px;
+      border: 1px solid #dcdfe5;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th {
+      background-color: #e6ebf3;
+      color: var(--navy);
+      font-weight: 600;
+      padding: 12px 10px;
+      border-bottom: 2px solid #dcdfe5;
+      text-transform: capitalize;
+      font-size: 15px;
+    }
+
+    td {
+      padding: 10px 12px;
+      text-align: center;
+      color: #333;
+      background-color: #ffffff;
+      border-bottom: 1px solid #e4e6eb;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #f2f5f7;
+    }
+
+    tr:hover td {
+      background-color: #eaf4ff;
+      transition: background-color 0.3s ease;
+    }
+
+    .input-area {
+      max-width: 1000px;
+      margin: 30px auto;
+      text-align: center;
+    }
+
+    input[type="text"],
+    input[type="file"],
+    select {
+      padding: 10px;
+      margin: 10px;
+      width: 250px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: var(--navy);
+      color: white;
+      font-size: 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #001f66;
+    }
+
+    @media print {
+      .input-area,
+      #printBtn {
+        display: none;
+      }
+
+      .sheet {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="input-area">
+    <input type="text" id="enNumber" placeholder="Enter EN Number">
+    <input type="text" id="studentName" placeholder="Enter Student Name">
+    <input type="file" id="fileInput" accept=".xlsx, .xls">
+    <select id="sheetSelector" style="display:none;"></select>
+    <br>
+    <button id="printBtn" onclick="window.print()">Print</button>
+  </div>
+
+  <div class="sheet">
+    <div class="header">
+      <div class="en-display"><span id="displayEN">__________</span></div>
+
+      <div class="title-area">
+        <div class="title" data-text="SOFT ACCESS EDUCARE">SOFT ACCESS EDUCARE</div>
+        <div class="student-display">Name: <span id="displayName">___________________</span></div>
+      </div>
+
+      <img src="newlogo.jpg" class="logo" alt="Logo">
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Pref. No</th>
+          <th>Branch Code</th>
+          <th>College Name</th>
+          <th>City</th>
+          <th>Branch</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+
+  <script>
+    const fileInput = document.getElementById('fileInput');
+    const tableBody = document.getElementById('tableBody');
+    const displayEN = document.getElementById('displayEN');
+    const displayName = document.getElementById('displayName');
+    const sheetSelector = document.getElementById('sheetSelector');
+    let workbookGlobal = null;
+
+    document.getElementById('enNumber').addEventListener('input', function () {
+      displayEN.textContent = this.value || '__________';
+    });
+
+    document.getElementById('studentName').addEventListener('input', function () {
+      displayName.textContent = this.value.toUpperCase() || '___________________';
+    });
+
+    fileInput.addEventListener('change', function (e) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function (event) {
+        const data = new Uint8Array(event.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+        workbookGlobal = workbook;
+
+        sheetSelector.innerHTML = '';
+        workbook.SheetNames.forEach((name) => {
+          const option = document.createElement('option');
+          option.value = name;
+          option.textContent = name;
+          sheetSelector.appendChild(option);
+        });
+
+        sheetSelector.style.display = 'inline-block';
+        loadSheet(workbook.SheetNames[0]);
+      };
+
+      reader.readAsArrayBuffer(file);
+    });
+
+    sheetSelector.addEventListener('change', function () {
+      loadSheet(this.value);
+    });
+
+    function loadSheet(sheetName) {
+      const worksheet = workbookGlobal.Sheets[sheetName];
+      const json = XLSX.utils.sheet_to_json(worksheet);
+      tableBody.innerHTML = '';
+
+      json.forEach((row, index) => {
+        const keys = {};
+        for (const key in row) {
+          keys[key.trim().toLowerCase()] = row[key];
+        }
+
+        const branchCodeRaw = (keys["branch code"] || '').toString();
+        const boldFirst4 = `<strong>${branchCodeRaw.slice(0, 4)}</strong>${branchCodeRaw.slice(4)}`;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${boldFirst4}</td>
+          <td>${keys["college name"] || ''}</td>
+          <td>${keys["city"] || ''}</td>
+          <td>${keys["branch"] || ''}</td>
+        `;
+        tableBody.appendChild(tr);
+      });
+    }
+  </script>
+
+</body>
+</html>
