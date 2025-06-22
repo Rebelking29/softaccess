@@ -7,7 +7,7 @@
   <style>
     :root {
       --saffron: #FF9933;
-      --white: #ffffff;
+      --lightblue: #87CEFA;
       --green: #138808;
       --navy: #1a2a44;
       --light-bg: #f9f9fb;
@@ -20,6 +20,85 @@
       margin: 0;
       padding: 20px;
       color: #444;
+    }
+
+    /* Top header with shadow and reflection */
+    .top-header {
+      text-align: center;
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      background: linear-gradient(270deg, var(--saffron), var(--lightblue), var(--green), var(--saffron));
+      background-size: 600% 600%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: flagWave 6s infinite linear;
+      letter-spacing: 2px;
+      position: relative;
+      text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    .top-header::after {
+      content: "Soft Access Educare";
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      font-size: 36px;
+      font-weight: bold;
+      color: rgba(0, 0, 0, 0.1);
+      transform: scaleY(-1);
+      opacity: 0.4;
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.4), transparent);
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.4), transparent);
+    }
+
+    @keyframes flagWave {
+      0% {
+        background-position: 0% 50%;
+      }
+      100% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .input-area {
+      max-width: 1000px;
+      margin: 20px auto 30px;
+      text-align: center;
+      background: url('4eb4e4ef-7b38-4181-b0cc-7f09f440e84d.png') no-repeat center center;
+      background-size: 250px;
+      padding: 40px 20px;
+      border-radius: 12px;
+      background-color: #f9f9fb;
+      position: relative;
+    }
+
+    input[type="text"],
+    input[type="file"],
+    select {
+      padding: 10px;
+      margin: 10px;
+      width: 250px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      background-color: white;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: var(--navy);
+      color: white;
+      font-size: 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #001f66;
     }
 
     .sheet {
@@ -81,7 +160,7 @@
       width: 100%;
       height: 100%;
       background:
-        linear-gradient(120deg, #FF9933 0%, #ffffff 33%, #138808 66%, #FF9933 100%),
+        linear-gradient(120deg, var(--saffron) 0%, var(--lightblue) 33%, var(--green) 66%, var(--saffron) 100%),
         url('https://i.imgur.com/IznRbMi.png');
       background-repeat: repeat-x, no-repeat;
       background-size: 400% 100%, 30px 30px;
@@ -119,19 +198,18 @@
     }
 
     .logo {
-        width: 130px;
-        height: auto;
-        padding: 4px;
-        border-radius: 6px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        transition: transform 0.4s ease, box-shadow 0.3s ease;
+      width: 130px;
+      height: auto;
+      padding: 4px;
+      border-radius: 6px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.4s ease, box-shadow 0.3s ease;
     }
 
     .logo:hover {
-        transform: scale(1.08);
-        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+      transform: scale(1.08);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
     }
-
 
     table {
       width: 100%;
@@ -171,41 +249,10 @@
       transition: background-color 0.3s ease;
     }
 
-    .input-area {
-      max-width: 1000px;
-      margin: 30px auto;
-      text-align: center;
-    }
-
-    input[type="text"],
-    input[type="file"],
-    select {
-      padding: 10px;
-      margin: 10px;
-      width: 250px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 15px;
-    }
-
-    button {
-      padding: 10px 20px;
-      background-color: var(--navy);
-      color: white;
-      font-size: 15px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    button:hover {
-      background-color: #001f66;
-    }
-
     @media print {
       .input-area,
-      #printBtn {
+      #printBtn,
+      .top-header {
         display: none;
       }
 
@@ -218,6 +265,8 @@
   </style>
 </head>
 <body>
+
+  <div class="top-header">Soft Access Educare</div>
 
   <div class="input-area">
     <input type="text" id="enNumber" placeholder="Enter EN Number">
@@ -234,7 +283,10 @@
 
       <div class="title-area">
         <div class="title" data-text="SOFT ACCESS EDUCARE">SOFT ACCESS EDUCARE</div>
-        <div class="student-display">Name: <span id="displayName">___________________</span></div>
+        
+        <div class="student-display"> <b>Name: </b><span id="displayName">___________________</span></div>
+        <br>
+        <div> <b>College Prefrence List </b></div>
       </div>
 
       <img src="newlogo.jpg" class="logo" alt="Logo">
@@ -303,7 +355,7 @@
       const json = XLSX.utils.sheet_to_json(worksheet);
       tableBody.innerHTML = '';
 
-      json.forEach((row, index) => {
+      json.forEach((row) => {
         const keys = {};
         for (const key in row) {
           keys[key.trim().toLowerCase()] = row[key];
@@ -314,7 +366,7 @@
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td>${index + 1}</td>
+          <td></td>
           <td>${boldFirst4}</td>
           <td>${keys["college name"] || ''}</td>
           <td>${keys["city"] || ''}</td>
