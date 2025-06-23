@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>College Preference Sheet</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <style>
@@ -22,77 +22,34 @@
       color: #444;
     }
 
-    /* Top header with shadow and reflection */
-    .top-header {
-      text-align: center;
-      font-size: 36px;
-      font-weight: bold;
-      margin-bottom: 30px;
-      background: linear-gradient(270deg, var(--saffron), var(--lightblue), var(--green), var(--saffron));
-      background-size: 600% 600%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: flagWave 6s infinite linear;
-      letter-spacing: 2px;
-      position: relative;
-      text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
-    }
-
-    .top-header::after {
-      content: "Soft Access Educare";
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      font-size: 36px;
-      font-weight: bold;
-      color: rgba(0, 0, 0, 0.1);
-      transform: scaleY(-1);
-      opacity: 0.4;
-      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.4), transparent);
-      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.4), transparent);
-    }
-
-    @keyframes flagWave {
-      0% {
-        background-position: 0% 50%;
-      }
-      100% {
-        background-position: 100% 50%;
-      }
-    }
-
     .input-area {
       max-width: 1000px;
-      margin: 20px auto 30px;
+      margin: 10px auto 20px;
       text-align: center;
-      background: url('4eb4e4ef-7b38-4181-b0cc-7f09f440e84d.png') no-repeat center center;
-      background-size: 250px;
-      padding: 40px 20px;
-      border-radius: 12px;
       background-color: #f9f9fb;
-      position: relative;
+      padding: 20px;
+      border-radius: 10px;
     }
 
     input[type="text"],
     input[type="file"],
     select {
-      padding: 10px;
-      margin: 10px;
-      width: 250px;
-      border-radius: 6px;
+      padding: 8px;
+      margin: 8px;
+      width: 220px;
+      border-radius: 4px;
       border: 1px solid #ccc;
-      font-size: 15px;
+      font-size: 14px;
       background-color: white;
     }
 
     button {
-      padding: 10px 20px;
+      padding: 8px 16px;
       background-color: var(--navy);
       color: white;
-      font-size: 15px;
+      font-size: 14px;
       border: none;
-      border-radius: 6px;
+      border-radius: 4px;
       cursor: pointer;
       margin-top: 10px;
     }
@@ -106,153 +63,103 @@
       border: 1px solid #ccc;
       max-width: 1000px;
       margin: auto;
-      padding: 40px 50px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-      border-radius: 10px;
+      padding: 30px 40px;
+      border-radius: 6px;
     }
 
     .header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-      padding-bottom: 20px;
-      border-bottom: 4px solid var(--saffron);
-      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 3px solid var(--saffron);
+      gap: 20px;
     }
 
-    .en-display {
-      font-size: 20px;
-      font-weight: bold;
-      color: var(--navy);
-      width: 160px;
-      text-align: left;
+    .left-info {
+      width: 220px;
+      font-size: 13px;
+      color: #333;
       line-height: 1.6;
     }
 
-    .title-area {
+    .left-info b {
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .title-block {
       text-align: center;
       flex: 1;
-      padding: 0 20px;
     }
 
-    .title {
-      font-size: 30px;
+    .title-block .main-title {
+      font-size: 28px;
       font-weight: bold;
       color: var(--navy);
-      position: relative;
-      letter-spacing: 1px;
-      transition: all 0.4s ease;
-      overflow: hidden;
-      display: inline-block;
-    }
-
-    .title:hover {
-      transform: translateY(-5px) scale(1.05);
-      text-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .title::before {
-      content: attr(data-text);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background:
-        linear-gradient(120deg, var(--saffron) 0%, var(--lightblue) 33%, var(--green) 66%, var(--saffron) 100%),
-        url('https://i.imgur.com/IznRbMi.png');
-      background-repeat: repeat-x, no-repeat;
-      background-size: 400% 100%, 30px 30px;
-      background-position: 0% 50%, 0% center;
+      margin-bottom: 10px;
+      background: linear-gradient(270deg, var(--saffron), var(--lightblue), var(--green), var(--saffron));
+      background-size: 600% 600%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: chakraWave 6s linear infinite;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-      pointer-events: none;
+      animation: flagWave 6s infinite linear;
     }
 
-    .title:hover::before {
-      opacity: 1;
+    @keyframes flagWave {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
     }
 
-    @keyframes chakraWave {
-      0% {
-        background-position: 0% 50%, -30px center;
-      }
-      100% {
-        background-position: 100% 50%, 100% center;
-      }
+    .title-block .info-line {
+      font-size: 15px;
+      margin: 4px 0;
     }
 
-    .student-display {
-      font-size: 16px;
-      font-weight: 500;
-      color: #333;
-      margin-top: 5px;
-    }
-
-    .student-display span {
+    .title-block .info-line span {
+      font-weight: normal;
       text-transform: uppercase;
     }
 
     .logo {
-      width: 130px;
+      width: 100px;
       height: auto;
-      padding: 4px;
-      border-radius: 6px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      transition: transform 0.4s ease, box-shadow 0.3s ease;
-    }
-
-    .logo:hover {
-      transform: scale(1.08);
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+      padding: 2px;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
 
     table {
       width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
-      margin-top: 15px;
-      font-size: 15px;
-      border: 1px solid #dcdfe5;
-      border-radius: 8px;
-      overflow: hidden;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 13px;
+      border: 1px solid #ccc;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 6px 8px;
+      text-align: center;
+      white-space: nowrap;
     }
 
     th {
       background-color: #e6ebf3;
       color: var(--navy);
       font-weight: 600;
-      padding: 12px 10px;
-      border-bottom: 2px solid #dcdfe5;
-      text-transform: capitalize;
-      font-size: 15px;
-    }
-
-    td {
-      padding: 10px 12px;
-      text-align: center;
-      color: #333;
-      background-color: #ffffff;
-      border-bottom: 1px solid #e4e6eb;
     }
 
     tr:nth-child(even) td {
-      background-color: #f2f5f7;
+      background-color: #f4f7fa;
     }
 
     tr:hover td {
-      background-color: #eaf4ff;
-      transition: background-color 0.3s ease;
+      background-color: #e0f0ff;
     }
 
     @media print {
-      .input-area,
-      #printBtn,
-      .top-header {
+      .input-area, #printBtn {
         display: none;
       }
 
@@ -261,35 +168,50 @@
         box-shadow: none;
         padding: 0;
       }
+
+      table, th, td {
+        font-size: 12px;
+        padding: 4px 6px;
+        white-space: nowrap;
+      }
+
+      .header {
+        align-items: center;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="top-header">Soft Access Educare</div>
-
   <div class="input-area">
-    <input type="text" id="enNumber" placeholder="Enter EN Number">
-    <input type="text" id="studentName" placeholder="Enter Student Name">
-    <input type="file" id="fileInput" accept=".xlsx, .xls">
-    <select id="sheetSelector" style="display:none;"></select>
-    <br>
+    <input type="text" id="studentName" placeholder="Enter Student Name" />
+    <input type="text" id="enNumber" placeholder="Enter EN Number" />
+    <input type="text" id="dob" placeholder="Enter Date of Birth (DD-MM-YYYY)" />
+    <input type="file" id="fileInput" accept=".xlsx, .xls" />
+    <select id="sheetSelector" style="display: none;"></select>
+    <br />
     <button id="printBtn" onclick="window.print()">Print</button>
   </div>
 
   <div class="sheet">
     <div class="header">
-      <div class="en-display"><span id="displayEN">__________</span></div>
-
-      <div class="title-area">
-        <div class="title" data-text="SOFT ACCESS EDUCARE">SOFT ACCESS EDUCARE</div>
-        
-        <div class="student-display"> <b>Name: </b><span id="displayName">___________________</span></div>
-        <br>
-        <div> <b>College Prefrence List </b></div>
+      <div class="left-info">
+        <b>Address:</b><br />
+        Infront of Ambika Jewelers,<br />
+        Takali Dhokeshwar, Parner,<br />
+        Ahilyanagar, 414304.<br />
+        <b>Contact:</b> 7769959733 / 9511667671
       </div>
 
-      <img src="newlogo.jpg" class="logo" alt="Logo">
+      <div class="title-block">
+        <div class="main-title">Soft Access Educare</div>
+        <div class="info-line"><b>Name:</b> <span id="displayName">___________________</span></div>
+        <div class="info-line"><b>EN No:</b> <span id="displayEN">__________</span></div>
+        <div class="info-line"><b>DOB:</b> <span id="displayDOB">__/__/____</span></div>
+        <div style="margin-top: 6px;"><b>College Preference List</b></div>
+      </div>
+
+      <img src="newlogo.jpg" class="logo" alt="Logo" />
     </div>
 
     <table>
@@ -311,6 +233,7 @@
     const tableBody = document.getElementById('tableBody');
     const displayEN = document.getElementById('displayEN');
     const displayName = document.getElementById('displayName');
+    const displayDOB = document.getElementById('displayDOB');
     const sheetSelector = document.getElementById('sheetSelector');
     let workbookGlobal = null;
 
@@ -322,16 +245,23 @@
       displayName.textContent = this.value.toUpperCase() || '___________________';
     });
 
+    document.getElementById('dob').addEventListener('input', function () {
+      displayDOB.textContent = this.value || '__/__/____';
+    });
+
     fileInput.addEventListener('change', function (e) {
       const file = e.target.files[0];
-      const reader = new FileReader();
+      if (!file) return;
 
+      const reader = new FileReader();
       reader.onload = function (event) {
         const data = new Uint8Array(event.target.result);
         const workbook = XLSX.read(data, { type: 'array' });
         workbookGlobal = workbook;
 
         sheetSelector.innerHTML = '';
+        tableBody.innerHTML = '';
+
         workbook.SheetNames.forEach((name) => {
           const option = document.createElement('option');
           option.value = name;
@@ -341,8 +271,9 @@
 
         sheetSelector.style.display = 'inline-block';
         loadSheet(workbook.SheetNames[0]);
-      };
 
+        fileInput.value = ''; // allow same file upload again
+      };
       reader.readAsArrayBuffer(file);
     });
 
@@ -351,9 +282,10 @@
     });
 
     function loadSheet(sheetName) {
+      if (!workbookGlobal) return;
+      tableBody.innerHTML = '';
       const worksheet = workbookGlobal.Sheets[sheetName];
       const json = XLSX.utils.sheet_to_json(worksheet);
-      tableBody.innerHTML = '';
 
       json.forEach((row) => {
         const keys = {};
@@ -362,12 +294,12 @@
         }
 
         const branchCodeRaw = (keys["branch code"] || '').toString();
-        const boldFirst4 = `<strong>${branchCodeRaw.slice(0, 4)}</strong>${branchCodeRaw.slice(4)}`;
+        const formattedCode = `<strong>${branchCodeRaw.slice(0, 4)}</strong> ${branchCodeRaw.slice(4)}`;
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td></td>
-          <td>${boldFirst4}</td>
+          <td>${formattedCode}</td>
           <td>${keys["college name"] || ''}</td>
           <td>${keys["city"] || ''}</td>
           <td>${keys["branch"] || ''}</td>
